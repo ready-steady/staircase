@@ -64,6 +64,6 @@ func TestEvaluate(t *testing.T) {
 	}
 
 	for i := range x {
-		assert.EqualWithin(staircase.Evaluate(x[i]), y[i], 1e-15, t)
+		assert.EqualWithin(staircase.Evaluate(x[i]), y[i], 1e-14, t)
 	}
 }
