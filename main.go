@@ -25,8 +25,8 @@ func New(lengths, heights []float64, transition, steepness float64) (*Staircase,
 	if transition < 0 || transition > 0.5 {
 		return nil, errors.New("the transition length should be from 0 to 0.5")
 	}
-	if steepness <= 0 {
-		return nil, errors.New("the steepness should be positive")
+	if steepness < 0 {
+		return nil, errors.New("the steepness should be nonnegative")
 	}
 
 	n := len(lengths)
