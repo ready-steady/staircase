@@ -6,10 +6,6 @@
 // https://en.wikipedia.org/wiki/Cubic_Hermite_spline
 package staircase
 
-import (
-	"errors"
-)
-
 // Staircase represents a step function with smooth transitions.
 type Staircase struct {
 	lengths    []float64
@@ -17,19 +13,15 @@ type Staircase struct {
 	transition float64
 }
 
-// New returns a step function with smooth transitions.
-func New(lengths, heights []float64, transition float64) (*Staircase, error) {
-	if transition <= 0 || transition > 0.5 {
-		return nil, errors.New("the transition length should be in (0, 0.5]")
-	}
-
-	staircase := &Staircase{
+// New returns a step function with smooth transitions. The transition parameter
+// specifies the fraction of a step’s length dedicated for smoothing on each end
+// of the step; the parameter should be in (0, 0.5].
+func New(lengths, heights []float64, transition float64) *Staircase {
+	return &Staircase{
 		lengths:    lengths,
 		heights:    heights,
 		transition: transition,
 	}
-
-	return staircase, nil
 }
 
 // Evaluate computes the function at a point.
