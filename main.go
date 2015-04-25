@@ -1,14 +1,13 @@
 // Package staircase provides a step function with smooth transitions between
-// steps based on the logistic function.
+// steps based on cubic Hermite splines.
 //
 // https://en.wikipedia.org/wiki/Step_function
 //
-// https://en.wikipedia.org/wiki/Logistic_function
+// https://en.wikipedia.org/wiki/Cubic_Hermite_spline
 package staircase
 
 import (
 	"errors"
-	"math"
 )
 
 // Staircase represents a step function with smooth transitions.
@@ -17,16 +16,12 @@ type Staircase struct {
 	heights    []float64
 	distances  []float64
 	transition float64
-	steepness  float64
 }
 
 // New returns a step function with smooth transitions.
-func New(lengths, heights []float64, transition, steepness float64) (*Staircase, error) {
+func New(lengths, heights []float64, transition float64) (*Staircase, error) {
 	if transition <= 0 || transition > 0.5 {
 		return nil, errors.New("the transition length should be in (0, 0.5]")
-	}
-	if steepness < 0 {
-		return nil, errors.New("the steepness should be nonnegative")
 	}
 
 	n := len(lengths)
@@ -42,7 +37,6 @@ func New(lengths, heights []float64, transition, steepness float64) (*Staircase,
 		heights:    heights,
 		distances:  distances,
 		transition: transition,
-		steepness:  steepness,
 	}
 
 	return staircase, nil
@@ -70,19 +64,16 @@ func (self *Staircase) Evaluate(point float64) float64 {
 	}
 
 	if z, t := point/l[k], self.transition; k > 0 && z <= t {
-		x := (t*l[k-1] + point) / (t*l[k-1] + t*l[k])
-		o := l[k-1] / (l[k-1] + l[k])
-		return logistic(2*x-1, h[k-1], h[k], 2*o-1, self.steepness)
+		return hermite((t*l[k-1]+point)/(t*l[k-1]+t*l[k]), h[k-1], h[k])
 	} else if k < n-1 && z >= 1-t {
-		x := (point - (1-t)*l[k]) / (t*l[k] + t*l[k+1])
-		o := l[k] / (l[k] + l[k+1])
-		return logistic(2*x-1, h[k], h[k+1], 2*o-1, self.steepness)
+		return hermite((point-(1-t)*l[k])/(t*l[k]+t*l[k+1]), h[k], h[k+1])
 	}
 
 	return h[k]
 }
 
-func logistic(x, a, b, offset, steepness float64) float64 {
-	return (a*math.Exp(offset*steepness) + b*math.Exp(steepness*x)) /
-		(math.Exp(offset*steepness) + math.Exp(steepness*x))
+func hermite(t, a, b float64) float64 {
+	t2 := t * t
+	t3 := t * t2
+	return (2*t3-3*t2+1)*a + (-2*t3+3*t2)*b
 }
