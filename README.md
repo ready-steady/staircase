@@ -1,7 +1,7 @@
 # Staircase [![Build Status][status-img]][status-url]
 
-The package provides a [step function][1] with smooth transitions between steps
-based on [cubic Hermite splines][2].
+The package provides a [step function][1] with smooth transitions based on
+[cubic Hermite splines][2].
 
 ## [Documentation][doc]
 

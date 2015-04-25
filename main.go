@@ -1,5 +1,5 @@
-// Package staircase provides a step function with smooth transitions between
-// steps based on cubic Hermite splines.
+// Package staircase provides a step function with smooth transitions based on
+// cubic Hermite splines.
 //
 // https://en.wikipedia.org/wiki/Step_function
 //
