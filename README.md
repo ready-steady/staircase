@@ -5,7 +5,7 @@ The package provides a [step function][1] with smooth transitions based on
 
 ## [Documentation][doc]
 
-## Contributing
+## Contribution
 
 1. Fork the project.
 2. Implement your idea.

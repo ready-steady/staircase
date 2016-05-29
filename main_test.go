@@ -6,9 +6,9 @@ import (
 	"github.com/ready-steady/assert"
 )
 
-func TestEvaluate(t *testing.T) {
+func TestCompute(t *testing.T) {
 	lengths := []float64{0.2, 0.3, 0.5}
-	heights := []float64{1, -2, 3}
+	heights := []float64{1.0, -2.0, 3.0}
 	transition := 0.4
 
 	staircase := New(lengths, heights, transition)
@@ -80,6 +80,6 @@ func TestEvaluate(t *testing.T) {
 	}
 
 	for i := range x {
-		assert.EqualWithin(staircase.Evaluate(x[i]), y[i], 1e-14, t)
+		assert.EqualWithin(staircase.Compute(x[i]), y[i], 1e-14, t)
 	}
 }

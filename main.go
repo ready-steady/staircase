@@ -24,11 +24,11 @@ func New(lengths, heights []float64, transition float64) *Staircase {
 	}
 }
 
-// Evaluate computes the function at a point.
-func (self *Staircase) Evaluate(point float64) float64 {
+// Compute calculates the function at a point.
+func (self *Staircase) Compute(point float64) float64 {
 	h := self.heights
 
-	if point < 0 {
+	if point < 0.0 {
 		return h[0]
 	}
 
@@ -57,5 +57,5 @@ func (self *Staircase) Evaluate(point float64) float64 {
 func hermite(t, a, b float64) float64 {
 	t2 := t * t
 	t3 := t * t2
-	return (2*t3-3*t2+1)*a + (-2*t3+3*t2)*b
+	return (2.0*t3-3.0*t2+1.0)*a + (-2.0*t3+3.0*t2)*b
 }
