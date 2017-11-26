@@ -80,6 +80,6 @@ func TestCompute(t *testing.T) {
 	}
 
 	for i := range x {
-		assert.EqualWithin(staircase.Compute(x[i]), y[i], 1e-14, t)
+		assert.Close(staircase.Compute(x[i]), y[i], 1e-14, t)
 	}
 }
